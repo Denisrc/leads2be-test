@@ -8,6 +8,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+const db = require("./models/index");
+db.sequelize.sync();
+
 app.listen(3333);
 
 module.exports = app;
