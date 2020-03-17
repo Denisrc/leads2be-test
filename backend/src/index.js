@@ -1,19 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const { Client } = require('pg');
+const cors = require("cors");
 
 const app = express();
 
-const client = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'postgres',
-    password: 'mysecretpassword',
-    port: 5432,
-})
-client.connect()
-
+app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.listen(3333);
 
