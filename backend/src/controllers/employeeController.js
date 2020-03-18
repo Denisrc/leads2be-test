@@ -5,11 +5,6 @@ const Op = db.Sequelize.Op;
 module.exports = {
     // Create a new Employee
     async create(request, response) {
-        if (!request.body.name) {
-            response.status(400).send({message: "Name can not be empty!"});
-            return;
-        }
-
         // Create an Employee
         const employee = {
             name: request.body.name,
@@ -24,7 +19,7 @@ module.exports = {
             })
             .catch(err => {
                 response.status(500).send({
-                    message: err.message || "Some error occurred while creathe the Employee"
+                    message: err.message || "Some error occurred while creating the Employee"
                 });
             });
     },

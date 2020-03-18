@@ -4,6 +4,8 @@ const cors = require("cors");
 
 const app = express();
 
+const environment = process.env.NODE_ENV;
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
