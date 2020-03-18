@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const db = require("./models/index");
-db.sequelize.sync();
+db.sequelize.sync({ force: true });
 
 require("./routes")(app);
 

@@ -12,7 +12,9 @@ module.exports = {
 
         // Create an Employee
         const employee = {
-            name: request.body.name
+            name: request.body.name,
+            salary: request.body.salary,
+            role: request.body.role
         };
 
         // Save Employee in the database
