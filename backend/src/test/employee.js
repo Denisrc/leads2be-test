@@ -102,6 +102,9 @@ describe("Employee", () => {
                 salary: 2000,
                 role: "Test Role 1"
             };
+            Employee.create(employee)
+                .then(data => {})
+                .catch(err => {});
 
             chai.request(server)
                 .get("/api/employee/1")
@@ -112,6 +115,30 @@ describe("Employee", () => {
                     response.body.should.have.property("name").eql("Employee 1");
                     response.body.should.have.property("id");
                     response.body.should.have.property("id").eql(1);
+                    done();
+                });
+        });
+    });
+
+    // Test /DELETE/:id route
+    describe("/DELETE/:id Employee with id", () => {
+        it("it should delete employee with id", (done) => {
+            let employee = {
+                name: "Employee 1",
+                salary: 2000,
+                role: "Test Role 1"
+            };
+            Employee.create(employee)
+                .then(data => {})
+                .catch(err => {});
+
+            chai.request(server)
+                .delete("/api/employee/1")
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a("Object");
+                    response.body.should.have.property("message");
+                    response.body.should.have.property("message").eql("Employee was deleted successfully!");
                     done();
                 });
         });
