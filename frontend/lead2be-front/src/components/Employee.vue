@@ -3,15 +3,12 @@
         <div>
             <b-button variant="primary" @click="newEmployee">New</b-button>
         </div>
-        <EmployeeList 
-        :employees="employees"
-        />
+        <EmployeeList/>
   </div>
 </template>
 
 
 <script>
-import api from '../utils/api';
 
 import EmployeeList from './EmployeeList.vue'
 
@@ -27,12 +24,8 @@ export default {
     },
     methods: {
         newEmployee() {
-            alert("New Employee");
+            this.$router.push({name: "EmployeeDetail"});
         }
-    },
-    mounted: async function() {
-        const response = await api.get("/employee");
-        this.employees = response.data;
     }
 }
 </script>
