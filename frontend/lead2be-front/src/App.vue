@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <EmployeeList />
+    <EmployeeList 
+      :employees="employees"
+    />
   </div>
 </template>
 
@@ -14,10 +16,15 @@ export default {
   components: {
     EmployeeList
   },
+  data() {
+    return {
+      employees: []
+    }
+  },
   mounted: async function() {
-    console.log("Teste");
     const response = await api.get("/employee");
-    console.log(response);
+
+    this.employees = response.data;
   }
 }
 </script>
