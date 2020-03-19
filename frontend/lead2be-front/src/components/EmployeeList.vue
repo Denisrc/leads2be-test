@@ -2,7 +2,7 @@
     <div>
         <b-table striped hover :items="items" :fields="fields">
             <template v-slot:cell(operations)="row">
-                <b-button size="sm" @click="editRow(row.item, row.index, $event.target)" class="mr-2">
+                <b-button size="sm" @click="editRow(row.item)" class="mr-2">
                     Edit
                 </b-button>
                 <b-button size="sm" @click="deleteRow(row.item)" variant="danger">Delete</b-button>
@@ -42,11 +42,8 @@ export default {
         }
     },
     methods: {
-        editRow(item, index, button) {
-            console.log(item);
-            console.log(index);
-            console.log(button);
-            // this.$router.push({name: "EmployeeDetail"});
+        editRow(item) {
+            this.$router.push({name: "EmployeeDetailId", params: { id: item.id }});
         },
         deleteRow: async function(item) {
             const response = await api.delete("/employee/"+ item.id);

@@ -9,7 +9,8 @@ Vue.use(VueRouter);
 const routes = [
     { path: '/', name: 'Home', component: Home},
     { path: '/employee', name: 'Employee', component: Employee},
-    { path: '/employeeDetail', name: 'EmployeeDetail', component: EmployeeDetail, props: true}
+    { path: '/employeeDetail/:id', name: 'EmployeeDetailId', component: EmployeeDetail},
+    { path: '/employeeDatail', name: 'EmployeeDetail', component: EmployeeDetail}
 ];
 
 export default new VueRouter({
