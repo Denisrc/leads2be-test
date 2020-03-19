@@ -24,7 +24,6 @@ export default {
     },
     methods: {
         newEmployee() {
-            console.log("employee")
             this.$router.push({name: "EmployeeDetail"});
         }
     }

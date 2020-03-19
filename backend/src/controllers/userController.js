@@ -51,15 +51,18 @@ module.exports = {
             }
         });
 
+
         if (user !== null) {
             const validPass = await bcrypt.compare(request.body.password, user.password);
 
-            if (!validPass) return response.status(400).send({message: "Usernamer or Password Invalid"});
+            if (!validPass) return response.status(400).send({message: "Username or Password Invalid!"});
 
             // Create JWT token
             const token = jwt.sign({id: user.id}, authkey.SECRET_KEY);
 
-            return response.header('auth-token', token).send({message: "Success"});
+            return response.header('auth-token', token).send({token: token});
+        } else {
+            return response.status(400).send({message: "Username or Password Invalid!"});
         }
     }
 }

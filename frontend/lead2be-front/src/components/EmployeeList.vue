@@ -56,17 +56,15 @@ export default {
         }
     },
     mounted: async function() {
-        const response = await api.get("/employee");
-        if (response.status == 200) {
-            this.items = response.data;
-        }
-    },
-    updated: async function() {
-        const response = await api.get("/employee");
+        const token = localStorage.getItem('user');
+        const response = await api.get("/employee", {
+            headers: {
+                "auth-token": token
+            }
+        });
         if (response.status == 200) {
             this.items = response.data;
         }
     }
-    
 }
 </script>
