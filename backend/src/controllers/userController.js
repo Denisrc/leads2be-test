@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const db = require("../models/index");
+const authkey = require("../config/authkey");
 const User = db.users;
 const Op = db.Sequelize.Op;
 
@@ -16,8 +18,6 @@ module.exports = {
                 username: userBody.username
             }
         });
-
-        console.log(userSearch);
 
         if (userSearch !== null) {
             return response.status(400).send({message: "User already exists"});
@@ -51,14 +51,15 @@ module.exports = {
             }
         });
 
-        console.log(user);
-
         if (user !== null) {
             const validPass = await bcrypt.compare(request.body.password, user.password);
 
             if (!validPass) return response.status(400).send({message: "Usernamer or Password Invalid"});
 
-            return response.send({message: "Success"});
+            // Create JWT token
+            const token = jwt.sign({id: user.id}, authkey.SECRET_KEY);
+
+            return response.header('auth-token', token).send({message: "Success"});
         }
     }
 }
