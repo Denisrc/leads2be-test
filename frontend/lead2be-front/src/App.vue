@@ -1,41 +1,24 @@
 <template>
-  <div id="app">
-    <EmployeeList 
-      :employees="employees"
-    />
-  </div>
+    <div id="app">
+        <router-link to="/">Go to Foo</router-link>
+        <router-link to="/employee">Go to Employee</router-link>
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
-import api from './utils/api';
-
-import EmployeeList from './components/EmployeeList.vue'
-
 export default {
-  name: 'App',
-  components: {
-    EmployeeList
-  },
-  data() {
-    return {
-      employees: []
-    }
-  },
-  mounted: async function() {
-    const response = await api.get("/employee");
-
-    this.employees = response.data;
-  }
+    name: 'App',
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
 }
 </style>

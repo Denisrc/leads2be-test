@@ -1,13 +1,13 @@
 <template>
     <div>
-    <b-table striped hover :items="employees" :fields="fields">
-              <template v-slot:cell(operations)="row">
-        <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-          {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
-        </b-button>
+        <b-table striped hover :items="employees" :fields="fields">
+                <template v-slot:cell(operations)="row">
+            <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+            {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+            </b-button>
 
-      </template>
-    </b-table>
+        </template>
+        </b-table>
   </div>
 </template>
 
