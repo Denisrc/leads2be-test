@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bootstrap-vue": "^2.7.0"
+  }
+}

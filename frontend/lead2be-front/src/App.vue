@@ -1,17 +1,23 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <EmployeeList />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import api from './utils/api';
+
+import EmployeeList from './components/EmployeeList.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    EmployeeList
+  },
+  mounted: async function() {
+    console.log("Teste");
+    const response = await api.get("/employee");
+    console.log(response);
   }
 }
 </script>
