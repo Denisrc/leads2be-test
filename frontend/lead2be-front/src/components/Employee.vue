@@ -17,8 +17,8 @@ import EmployeeList from './EmployeeList.vue'
 
 export default {
     name: 'Employee',
-        components: {
-            EmployeeList
+    components: {
+        EmployeeList
     },
     data() {
         return {
