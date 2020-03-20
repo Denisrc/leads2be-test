@@ -1,18 +1,20 @@
-module.exports = (sequelize, Sequelize) => {
-    const Employee = sequelize.define("employee", {
-        name: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        salary: {
-            type: Sequelize.DOUBLE.UNSIGNED.ZEROFILL,
-            allowNull: false
-        },
-        role: {
-            type: Sequelize.STRING,
-            allowNull: false,
-        },
-    });
+const mongoose = require('mongoose');
 
-    return Employee;
-};
+const EmployeeSchema = new mongoose.Schema({
+    name: {
+        type: 'String',
+        required: true,
+        trim: true
+    },
+    salary: {
+        type: 'Number',
+        required: true
+    },
+    role: {
+        type: 'String',
+        required: true,
+        trim: true
+    }
+});
+
+module.exports = mongoose.model('Employee', EmployeeSchema);

@@ -1,21 +1,25 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-
-const environment = process.env.NODE_ENV;
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-const db = require("./models/index");
-// db.sequelize.sync({ force: true });
-db.sequelize.sync();
+const stage = require('./config/dbConfig')["dev"];
+
+mongoose.connect(stage.DBHost, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 require("./routes")(app);
 
-app.listen(3333);
+var listener = app.listen(3333, function() {
+    console.log("Listening on port " + listener.address().port);
+});
 
 module.exports = app;

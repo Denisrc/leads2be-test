@@ -1,9 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const db = require("../models/index");
 const authkey = require("../config/authkey");
-const User = db.users;
-const Op = db.Sequelize.Op;
+const User = require("../models/userModel");
 
 module.exports = {
     async create(request, response) {
@@ -14,9 +12,7 @@ module.exports = {
         }
 
         const userSearch = await User.findOne({
-            where: {
-                username: userBody.username
-            }
+            username: userBody.username
         });
 
         if (userSearch !== null) {
@@ -32,23 +28,22 @@ module.exports = {
             password: hashPassword
         };
 
-        // Save User in the database
-        User.create(user)
-            .then(data => {
-                response.send(data.username);
-            })
-            .catch(err => {
-                response.status(500).send({
-                    message: err.message || "Some error occurred while creating the Employee"
-                });
-            });
+
+        var newUser = new User(user);
+
+        newUser.save((err, user) => {
+            if (err) {
+                response.status(422).send(err);
+            } else {
+                response.json(user);
+            }
+        });
     },
+
     async login(request, response) {
         
         const user = await User.findOne({
-            where: {
-                username: request.body.username
-            }
+            username: request.body.username
         });
 
 

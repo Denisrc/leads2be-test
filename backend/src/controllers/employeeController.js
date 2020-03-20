@@ -1,47 +1,38 @@
-const db = require("../models/index");
-const Employee = db.employees;
-const Op = db.Sequelize.Op;
+const Employee = require("../models/employeeModel");
+const ObjectId = require('mongoose').Types.ObjectId; 
 
 module.exports = {
     // Create a new Employee
     async create(request, response) {
-        // Create an Employee
-        const employee = {
-            name: request.body.name,
-            salary: request.body.salary,
-            role: request.body.role
-        };
+        var newEmployee = new Employee(request.body);
 
-        // Save Employee in the database
-        Employee.create(employee)
-            .then(data => {
-                response.send(data);
-            })
-            .catch(err => {
-                response.status(500).send({
-                    message: err.message || "Some error occurred while creating the Employee"
-                });
-            });
+        newEmployee.save((err, employee) => {
+            if (err) {
+                response.status(422).send(err);
+            } else {
+                response.json(employee);
+            }
+        });
     },
 
     // List all employees
     async findAll(request, response) {
-        Employee.findAll({})
-            .then(data => {
-                response.send(data)
-            })
-            .catch(err => {
-                response.status(500).send({
-                    message: err.message || "Some error ocurred while retrieving employees"
-                });
-            });
+        Employee.find({}, (err, employee) => {
+            if (err) {
+                return response.status(422).send(err);
+            }
+            if (employee == null) {
+                return response.status(404).send({message: "Not found"});
+            }
+            return response.json(employee);
+        });
     },
 
     // Find employee by id
     async findOne(request, response) {
         const id = request.params.id;
 
-        Employee.findByPk(id)
+        Employee.findById(id)
             .then(data => {
                 if (data === null) {
                     return response.status(404).send({
@@ -61,49 +52,27 @@ module.exports = {
     async update(request, response) {
         const id = request.params.id;
 
-        Employee.update(request.body, {
-            where: {id: id}
-        })
-            .then(num => {
-                if (num == 1) {
-                    response.send({
-                        message: "Employee was updated successfully"
-                    });
-                } else {
-                    response.status(404).send({
-                        message: "Cannot update Employee! Not Found!"
-                    });
-                }
-            })
-            .catch(err => {
-                response.status(500).send({
-                    message: "Error updating Employee"
-                });
-            });
+        const employee = await Employee.updateOne({_id: new ObjectId(id)}, request.body, function(err, document) {
+            if (err) {
+                return response.status(422).send(err);
+            }
+
+            return response.json({message: "Sucessfuly Updated!"});
+        });
     },
 
     // Delete employee by id
     async delete(request, response) {
         const id = request.params.id;
 
-        Employee.destroy({
-            where: {id: id}
-        })
-            .then(num => {
-                if (num == 1) {
-                    response.send({
-                        message: "Employee was deleted successfully!"
-                    });
-                } else {
-                    response.status(404).send({
-                        message: "Cannot delete Employee! Not Found!"
-                    });
-                }
-            })
-            .catch(err => {
-                response.status(500).send({
-                    message: "Error deleting Employee"
-                });
-            });
+        const employee = await Employee.deleteOne({_id: new ObjectId(id)}, function(err, document) {
+            if (err) {
+                return response.status(422).send(err);
+            }
+            if (document.deletedCount == 0) {
+                return response.status(404).send({message: "Not found"});
+            }
+            return response.json({message: "Employee successfully deleted!"});
+        });
     }
 }
