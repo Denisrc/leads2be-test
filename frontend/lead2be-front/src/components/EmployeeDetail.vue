@@ -1,5 +1,6 @@
 <template>
     <div>
+        <br>
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group
                 label="Name: "
@@ -36,8 +37,11 @@
                 ></b-form-input>
             </b-form-group>
 
-            <b-button type="submit" variant="primary">Save</b-button>
-            <b-button type="reset" variant="danger">Reset</b-button>
+            <b-row align-h="center">
+                <b-col cols="1"><b-button type="submit" variant="primary">Save</b-button></b-col>
+                <b-col cols="1"><b-button type="reset" variant="danger">Reset</b-button></b-col>
+            </b-row>
+            
         </b-form>   
     </div>
 </template>
@@ -60,13 +64,30 @@ export default {
     methods: {
         onSubmit: async function(event) {
             event.preventDefault();
+
+            const token = localStorage.getItem('user');
+
             if (this.$route.params.id != undefined) {
-                const response = await api.put("/employee/"+this.$route.params.id, this.form);
+                const response = await api.put("/employee/"+this.$route.params.id, this.form, {
+                    headers: {
+                        "auth-token": token
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    console.log(error.response);
+                });
                 if (response.status === 200) {
                     alert("Updated");
                 }
             } else {
-                const response = await api.post("/employee", this.form);
+                const response = await api.post("/employee", this.form, {
+                    headers: {
+                        "auth-token": token
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    console.log(error.response);
+                });
                 if (response.status === 200) {
                     alert("Created");
                     this.onReset(event);
@@ -88,7 +109,17 @@ export default {
         fecthData: async function(id) {
             if (id == 0) return;
 
-            const response = await api.get("/employee/"+id);
+            const token = localStorage.getItem('user');
+            const response = await api.get("/employee/"+id, {
+                headers: {
+                    "auth-token": token
+                }
+            }).catch((error) => {
+                if (error.response.status == 401) {
+                    localStorage.setItem('user', undefined);
+                    this.$router.push({name: "Login"});
+                }
+            });
 
             if (response.status == 200) {
                 this.form.name = response.data.name;

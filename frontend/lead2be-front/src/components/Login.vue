@@ -1,6 +1,13 @@
 <template>
     <div>
+        <br>
         <b-card>
+            <div v-if="created">
+                <b-alert show variant="success">User Created</b-alert>
+            </div>
+            <div v-if="errorLogin">
+                <b-alert show variant="danger">{{ erroMessage }}</b-alert>
+            </div>
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                 <b-form-group
                     label="Username: "
@@ -25,9 +32,10 @@
                         placeholder="Password"
                     ></b-form-input>
                 </b-form-group>
-
-                <b-button type="submit" variant="primary">Login</b-button>
-                <b-button type="submit" variant="success">Register</b-button>
+                <b-row align-h="center">
+                    <b-col cols="1"><b-button type="submit" variant="primary">Login</b-button></b-col>
+                    <b-col cols="1"><b-button type="submit" variant="success">Register</b-button></b-col>
+                </b-row>
             </b-form>
         </b-card>
     </div>
@@ -45,7 +53,10 @@ export default {
                 username: '',
                 password: '',
             },
-            show: true
+            show: true,
+            created: false,
+            errorLogin: false,
+            erroMessage: ''
         }
     },
     methods: {
@@ -55,6 +66,8 @@ export default {
 
             if (buttonText === "Login") {
                 this.login();
+            } else {
+                this.register();
             }
         },
         onReset(event) {
@@ -70,8 +83,8 @@ export default {
         },
         login: async function() {
             const response = await api.post("/login", this.form).catch((error) => {
-                console.log(error);
-                console.log(error.response);
+                this.errorLogin = true;
+                this.erroMessage = error.response.data.message;
             });
             if (response != null) {
                 const token = response.data.token;
@@ -79,7 +92,16 @@ export default {
 
                 this.$router.push({name: "Home"});
             }
+        },
+        register: async function() {
+            const response = await api.post("/register", this.form).catch((error) => {
+                this.errorLogin = true;
+                this.erroMessage = error.response.data.message;
+            });
 
+            if (response.status == 200) {
+                this.created = true;
+            }
         }
     }
 }
