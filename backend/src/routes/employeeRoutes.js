@@ -1,10 +1,11 @@
 const routes = require("express").Router();
+const authenticate = require("../utils/authenticate");
 const employeeController = require("../controllers/employeeController");
 
-routes.post("/", employeeController.create);
-routes.get("/", employeeController.findAll);
-routes.get("/:id", employeeController.findOne);
-routes.put("/:id", employeeController.update);
-routes.delete("/:id", employeeController.delete);
+routes.post("/", authenticate, employeeController.create);
+routes.get("/", authenticate, employeeController.findAll);
+routes.get("/:id", authenticate, employeeController.findOne);
+routes.put("/:id", authenticate, employeeController.update);
+routes.delete("/:id", authenticate, employeeController.delete);
 
 module.exports = routes;

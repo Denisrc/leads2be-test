@@ -46,7 +46,12 @@ export default {
             this.$router.push({name: "EmployeeDetailId", params: { id: item.id }});
         },
         deleteRow: async function(item) {
-            const response = await api.delete("/employee/"+ item.id);
+            const token = localStorage.getItem('user');
+            const response = await api.delete("/employee/"+ item.id, {
+                headers: {
+                    "auth-token": token
+                }
+            });
 
             if (response.status === 200) {
                 let newEmployees = this.items.filter(el => el.id != item.id);
@@ -56,17 +61,15 @@ export default {
         }
     },
     mounted: async function() {
-        const response = await api.get("/employee");
-        if (response.status == 200) {
-            this.items = response.data;
-        }
-    },
-    updated: async function() {
-        const response = await api.get("/employee");
+        const token = localStorage.getItem('user');
+        const response = await api.get("/employee", {
+            headers: {
+                "auth-token": token
+            }
+        });
         if (response.status == 200) {
             this.items = response.data;
         }
     }
-    
 }
 </script>

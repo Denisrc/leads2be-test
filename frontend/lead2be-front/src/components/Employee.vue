@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div>
-            <b-button variant="primary" @click="newEmployee">New</b-button>
-        </div>
+        <br>
+        <b-button id="new-button" variant="primary" @click="newEmployee">New</b-button>
+        <br>
+        <br>
         <EmployeeList/>
   </div>
 </template>
@@ -24,9 +25,15 @@ export default {
     },
     methods: {
         newEmployee() {
-            console.log("employee")
             this.$router.push({name: "EmployeeDetail"});
         }
     }
 }
 </script>
+
+<style>
+#new-button {
+    align-self: "left";
+    align-content: "left";
+}
+</style>

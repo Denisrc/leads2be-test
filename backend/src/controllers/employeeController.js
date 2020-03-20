@@ -65,7 +65,6 @@ module.exports = {
             where: {id: id}
         })
             .then(num => {
-                console.log("Update", num);
                 if (num == 1) {
                     response.send({
                         message: "Employee was updated successfully"
@@ -77,7 +76,6 @@ module.exports = {
                 }
             })
             .catch(err => {
-                console.log("Update Error", num);
                 response.status(500).send({
                     message: "Error updating Employee"
                 });

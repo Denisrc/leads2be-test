@@ -7,12 +7,15 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item><router-link to="/">Go to Foo</router-link></b-nav-item>
-                    <b-nav-item><router-link to="/employee">Go to Employee</router-link></b-nav-item>
+                    <b-nav-item><router-link id="routerLink" to="/">Home</router-link></b-nav-item>
+                    <b-nav-item><router-link id="routerLink" to="/employee">Employees</router-link></b-nav-item>
+                    <b-nav-item><router-link id="routerLink" to="/login">Login</router-link></b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-        <router-view></router-view>
+        <b-container>
+            <router-view></router-view>
+        </b-container>
     </div>
 </template>
 
@@ -23,11 +26,8 @@ export default {
 </script>
 
 <style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+#routerLink {
+    color: #FFFFFF;
+    text-decoration: none;
 }
 </style>
