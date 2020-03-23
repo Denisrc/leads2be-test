@@ -20,4 +20,3 @@ Acesse o seguinte endereço para utilizar a aplicação
 ```
 http://localhost:8080/
 ```
-# leads2be-test
