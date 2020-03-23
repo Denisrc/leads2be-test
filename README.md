@@ -20,3 +20,9 @@ Acesse o seguinte endereço para utilizar a aplicação
 ```
 http://localhost:8080/
 ```
+
+Usuário e senha padrão
+```
+User: admin
+Senha: admin123
+```
