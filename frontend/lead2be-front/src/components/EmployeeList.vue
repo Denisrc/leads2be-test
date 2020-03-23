@@ -43,20 +43,25 @@ export default {
     },
     methods: {
         editRow(item) {
-            this.$router.push({name: "EmployeeDetailId", params: { id: item.id }});
+            console.log(item);
+            this.$router.push({name: "EmployeeDetailId", params: { id: item._id }});
         },
         deleteRow: async function(item) {
             const token = localStorage.getItem('user');
-            const response = await api.delete("/employee/"+ item.id, {
-                headers: {
-                    "auth-token": token
+
+            var sure = confirm("Are you sure you want to delete?");
+            if (sure == true) {
+                const response = await api.delete("/employee/"+ item._id, {
+                    headers: {
+                        "auth-token": token
+                    }
+                });
+
+                if (response.status === 200) {
+                    let newEmployees = this.items.filter(el => el._id != item._id);
+
+                    this.items = newEmployees;
                 }
-            });
-
-            if (response.status === 200) {
-                let newEmployees = this.items.filter(el => el.id != item.id);
-
-                this.items = newEmployees;
             }
         }
     },
